@@ -30,7 +30,7 @@ import java.util.Properties;
 public class DataConfig {
 
     @Autowired
-    Environment environment;
+    private Environment environment;
 
     @Bean
     public DataSource dataSource() {
@@ -48,7 +48,7 @@ public class DataConfig {
         entityManagerFactoryBean.setDataSource(ds);
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 
-        entityManagerFactoryBean.setPackagesToScan("orj.j.products.entities");
+        entityManagerFactoryBean.setPackagesToScan("org.j.products.entities");
 
         final Properties hbmProperties = new Properties();
         hbmProperties.setProperty("hibernate.show_sql", environment.getProperty("hbm.show_sql"));
