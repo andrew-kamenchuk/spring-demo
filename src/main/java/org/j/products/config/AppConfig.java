@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
  * Created by Andrew on 12/31/16.
  */
 @Configuration
-@Import(DataConfig.class)
+@Import({DataConfig.class, SolrConfig.class})
 @ComponentScan("org.j.products")
 public class AppConfig {
 }

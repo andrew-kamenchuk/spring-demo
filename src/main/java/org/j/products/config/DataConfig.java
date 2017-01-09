@@ -30,15 +30,15 @@ import java.util.Properties;
 public class DataConfig {
 
     @Autowired
-    private Environment environment;
+    private Environment env;
 
     @Bean
     public DataSource dataSource() {
         final BasicDataSource ds = new BasicDataSource();
-        ds.setDriverClassName(environment.getProperty("db.driver"));
-        ds.setUrl(environment.getProperty("db.url"));
-        ds.setUsername(environment.getProperty("db.user"));
-        ds.setPassword(environment.getProperty("db.password"));
+        ds.setDriverClassName(env.getRequiredProperty("db.driver"));
+        ds.setUrl(env.getRequiredProperty("db.url"));
+        ds.setUsername(env.getRequiredProperty("db.user"));
+        ds.setPassword(env.getRequiredProperty("db.password"));
         return ds;
     }
 
@@ -51,10 +51,10 @@ public class DataConfig {
         entityManagerFactoryBean.setPackagesToScan("org.j.products.entities");
 
         final Properties hbmProperties = new Properties();
-        hbmProperties.setProperty("hibernate.show_sql", environment.getProperty("hbm.show_sql"));
-        hbmProperties.setProperty("hibernate.format_sql", environment.getProperty("hbm.format_sql"));
-        hbmProperties.setProperty("hibernate.dialect", environment.getProperty("hbm.dialect"));
-        hbmProperties.setProperty("hibernate.hbm2ddl.auto", environment.getProperty("hbm.hbm2ddl.auto"));
+        hbmProperties.setProperty("hibernate.show_sql", env.getRequiredProperty("hbm.show_sql"));
+        hbmProperties.setProperty("hibernate.format_sql", env.getRequiredProperty("hbm.format_sql"));
+        hbmProperties.setProperty("hibernate.dialect", env.getRequiredProperty("hbm.dialect"));
+        hbmProperties.setProperty("hibernate.hbm2ddl.auto", env.getRequiredProperty("hbm.hbm2ddl.auto"));
 
         entityManagerFactoryBean.setJpaProperties(hbmProperties);
 

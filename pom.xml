@@ -19,6 +19,7 @@
         <junit.version>4.12</junit.version>
         <spring.version>4.3.4.RELEASE</spring.version>
         <spring.data.version>1.10.6.RELEASE</spring.data.version>
+        <spring.solr.version>2.0.6.RELEASE</spring.solr.version>
         <dbcp.version>2.1.1</dbcp.version>
     </properties>
 
@@ -77,6 +78,12 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring.data.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-solr</artifactId>
+            <version>${spring.solr.version}</version>
         </dependency>
 
         <dependency>
