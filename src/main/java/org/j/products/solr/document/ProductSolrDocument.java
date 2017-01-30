@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by Andrew on 1/9/17.
  */
 @SolrDocument(solrCoreName = "products")
-public class Product {
+public class ProductSolrDocument {
 
     @Id
     @Indexed
@@ -36,7 +36,7 @@ public class Product {
     @Field("prop_*")
     private Map<String, Collection<Long>> dynamicProps;
 
-    public Product() {
+    public ProductSolrDocument() {
 
     }
 
