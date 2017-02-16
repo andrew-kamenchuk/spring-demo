@@ -34,7 +34,7 @@ public class ProductSolrDocument {
 
     @Dynamic
     @Field("prop_*")
-    private Map<String, Collection<Long>> dynamicProps;
+    private Map<String, Long> dynamicProps;
 
     public ProductSolrDocument() {
 
@@ -72,11 +72,11 @@ public class ProductSolrDocument {
         this.description = description;
     }
 
-    public Map<String, Collection<Long>> getDynamicProps() {
+    public Map<String, Long> getDynamicProps() {
         return dynamicProps;
     }
 
-    public void setDynamicProps(Map<String, Collection<Long>> dynamicProps) {
+    public void setDynamicProps(Map<String, Long> dynamicProps) {
         this.dynamicProps = dynamicProps;
     }
 }

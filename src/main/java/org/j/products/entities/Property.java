@@ -7,7 +7,10 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -19,11 +22,24 @@ import java.util.Set;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Property extends NamedEntity {
 
-    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PropertyValue> values = new HashSet<PropertyValue>();
+    @OneToMany(mappedBy = "property", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PropertyValue> values = new HashSet<>();
+
+    @Transient
+    private Map<Long, PropertyValue> searchableValues;
 
     public Set<PropertyValue> getValues() {
         return values;
+    }
+
+    public PropertyValue getValue(Long id) {
+        if (null == searchableValues) {
+            searchableValues = new HashMap<>();
+
+            getValues().forEach(value -> searchableValues.put(value.getId(), value));
+        }
+
+        return searchableValues.get(id);
     }
 
     public void setValues(final Set<PropertyValue> values) {
