@@ -1,3 +1,12 @@
+# maven build
 /target
+
+# idea
 Products.iml
 /.idea
+
+# js
+node_modules/
+.__browserify_string_empty.js
+
+/src/main/webapp/WEB-INF/static

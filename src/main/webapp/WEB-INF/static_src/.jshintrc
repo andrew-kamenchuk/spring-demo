@@ -1,0 +1,56 @@
+// http://jshint.com/docs/options/
+// global jshint config
+{
+    "passfail"   : true,
+
+    // Enforcing
+    "bitwise"       : false,
+    "curly"         : true,
+    "eqeqeq"        : false,
+    "esversion"     : 6,
+    "forin"         : true,
+    "freeze"        : true,
+    "funcscope"     : false,
+    "futurehostile" : true,
+    "iterator"      : true,
+    "latedef"       : true,
+    "maxcomplexity" : false,
+    "maxdepth"      : false,
+    "maxparams"     : false,
+    "maxstatements" : false,
+    "noarg"         : true,
+    "nocomma"       : false,
+    "nonbsp"        : true,
+    "nonew"         : false,
+    "notypeof"      : true,
+    "shadow"        : "inner",
+    "singleGroups"  : true,
+    "strict"        : true,
+    "undef"         : false,
+    "unused"        : true,
+    "varstmt"       : true,
+
+    // Relaxing
+    "asi"       : false,
+    "boss"      : true,
+    "debug"     : true,
+    "elision"   : true,
+    "eqnull"    : false,
+    "evil"      : false,
+    "expr"      : true,
+    "lastsemic" : false,
+    "loopfunc"  : true,
+    "moz"       : false,
+    "noyield"   : true,
+    "plusplus"  : false,
+    "proto"     : true,
+    "scripturl" : true,
+    "supernew"  : false,
+    "validthis" : true,
+    "withstmt"  : false,
+
+    // Env
+    "node"    : true,
+    "browser" : true,
+    "devel"   : true
+}
