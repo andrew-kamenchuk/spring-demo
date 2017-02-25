@@ -2,6 +2,9 @@ package org.j.products.web.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.j.products.entities.PropertyValue;
+import org.j.products.repositories.PropertyValueRepository;
+import org.j.products.search.products.QueryOptions;
 import org.j.products.search.products.Result;
 import org.j.products.search.products.SearchService;
 import org.j.products.search.products.SortOrder;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 /**
  * Created by Andrew on 2/9/17.
  */
@@ -23,16 +28,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class IndexController {
     private static final Logger logger = LogManager.getLogger(IndexController.class);
 
-    private static final Integer PAGE_SIZE = 15;
+    private static final Integer PAGE_SIZE = 10;
 
     @Autowired
     private SearchService searchService;
+
+    @Autowired
+    private PropertyValueRepository valueRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(
             @RequestParam(value = "p", required = false) Integer page,
             @RequestParam(value = "s", required = false) String orderString,
             @RequestParam(value = "search", required = false) final String search,
+            @RequestParam(value = "f", required = false) final List<Long> filters,
             final ModelMap model) {
 
         logger.debug(orderString);
@@ -53,15 +62,31 @@ public class IndexController {
             throw new NotFoundException();
         }
 
-        final Result result = searchService.getQueryOptions()
-                .setQuery(search)
-                .search(new PageRequest(page - 1, PAGE_SIZE, new Sort(order)));
+        final QueryOptions queryOptions = searchService.getQueryOptions();
+
+        queryOptions.setQuery(search);
+
+        if (filters != null && !filters.isEmpty()) {
+            filters.forEach(valueId -> {
+                final PropertyValue value = valueRepository.findOne(valueId);
+
+                if (null == value) {
+                    throw new NotFoundException();
+                }
+
+                queryOptions.addFilterValue(value.getProperty().getId(), valueId);
+            });
+        }
+
+        final Result result = queryOptions.search(new PageRequest(page - 1, PAGE_SIZE, new Sort(order)));
 
         model.addAttribute("urlPath", "/");
         model.addAttribute("search", search);
         model.addAttribute("page", page);
         model.addAttribute("orderString", orderString);
         model.addAttribute("orders", searchService.getAwailableSortOrders());
+        model.addAttribute("facets", result.getFacets());
+        model.addAttribute("filters", filters);
 
         model.addAttribute("products", result.getProducts());
 

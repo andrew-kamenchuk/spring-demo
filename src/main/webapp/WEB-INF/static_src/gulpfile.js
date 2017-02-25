@@ -64,5 +64,17 @@ gulp.task("app.js", function() {
         .pipe(gulp.dest(ROOT + "/../static/js"));
 });
 
+gulp.task("app.css", function() {
+    const less = require("gulp-less");
+    const cssmin = require("gulp-cssmin");
+    const rename = require("gulp-rename");
 
-gulp.task("default", ["third_party", "app.js"]);
+    return gulp.src(ROOT + "/less/app.less")
+        .pipe(less())
+        .pipe(cssmin())
+        .pipe(rename("styles.css"))
+        .pipe(gulp.dest(ROOT + "/../static/css"));
+});
+
+
+gulp.task("default", ["third_party", "app.js", "app.css"]);

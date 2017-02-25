@@ -7,6 +7,8 @@ import org.j.products.entities.Property;
 import org.j.products.entities.PropertyValue;
 import org.j.products.repositories.ProductRepository;
 import org.j.products.repositories.PropertyRepository;
+import org.j.products.search.products.PropertyFacetResult;
+import org.j.products.search.products.PropertyValueFacetResult;
 import org.j.products.search.products.QueryOptions;
 import org.j.products.search.products.Result;
 import org.j.products.search.products.SearchService;
@@ -29,7 +31,7 @@ import org.springframework.data.solr.core.query.result.FacetPage;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -101,13 +103,9 @@ public class SearchServiceImpl implements SearchService {
 
         final FacetOptions facetOptions = new FacetOptions();
 
-        facetQuery.setFacetOptions(facetOptions);
-
-        facetOptions.setFacetMinCount(1);
+        facetOptions.setFacetMinCount(0);
 
         final List<Property> properties = propertyRepository.findAll();
-
-        final Map<Property, String> propertiesFields = new HashMap<>();
 
         properties.forEach(property -> {
             String fieldName = String.format(FIELD_DYNAMIC_PROPERTY_PATTERN, property.getId());
@@ -116,11 +114,10 @@ public class SearchServiceImpl implements SearchService {
                 fieldName = String.format("{!ex=%1$s}%1$s", fieldName);
             }
 
-            propertiesFields.put(property, fieldName);
-
             facetOptions.addFacetOnField(fieldName);
         });
 
+        facetQuery.setFacetOptions(facetOptions);
 
         final FacetPage<ProductSolrDocument> facetPage = productsTemplate.queryForFacetPage(facetQuery, ProductSolrDocument.class);
 
@@ -128,28 +125,43 @@ public class SearchServiceImpl implements SearchService {
             facetPage.getContent().stream().map(ProductSolrDocument::getId).collect(Collectors.toList())
         );
 
-        Map<Property, Map<PropertyValue, Long>> facetStats = new HashMap<>();
+        Set<PropertyFacetResult> facets = new LinkedHashSet<>();
 
-        propertiesFields.forEach((property, fieldName) -> {
-            facetStats.put(property, new HashMap<>());
+        properties.forEach(property -> {
+            final boolean propertySelected = filterValues.containsKey(property.getId());
 
-            facetPage.getFacetResultPage(fieldName).forEach(entry -> {
+            final PropertyFacetResult propertyFacetResult = new PropertyFacetResult(property, propertySelected);
+
+            facets.add(propertyFacetResult);
+
+            facetPage.getFacetResultPage(String.format(FIELD_DYNAMIC_PROPERTY_PATTERN, property.getId())).forEach(entry -> {
+                Long valueId = null;
+
                 try {
-                    final PropertyValue value = property.getValue(Long.parseLong(entry.getValue()));
-
-                    if (null != value) {
-                        facetStats.get(property).put(value, entry.getValueCount());
-                    }
-
+                    valueId = Long.parseLong(entry.getValue());
                 } catch (NumberFormatException e) {
-                    logger.debug(e);
+                    logger.error(e);
                 }
+
+                if (null == valueId) {
+                    return;
+                }
+
+                final PropertyValue value = property.getValue(valueId);
+
+                if (null == value) {
+                    return;
+                }
+
+                final boolean selected = propertySelected && filterValues.get(property.getId()).contains(valueId);
+
+                propertyFacetResult.addPropertyValueFacetResult(new PropertyValueFacetResult(value, entry.getValueCount(), selected));
             });
         });
 
         final Page<Product> productPage = new PageImpl<>(products, pageable, facetPage.getTotalElements());
 
-        Result result = new ResultImpl(productPage, facetStats);
+        Result result = new ResultImpl(productPage, facets);
 
         return result;
     }

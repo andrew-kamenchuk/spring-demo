@@ -36,5 +36,6 @@
 
 <script src="<c:url value="/static/tp/jquery.min.js" />" type="text/javascript" charset="UTF-8" ></script>
 <script src="<c:url value="/static/tp/polyfill.js" />" type="text/javascript" charset="UTF-8" ></script>
+<script src="<c:url value="/static/js/app.min.js" />" type="text/javascript" charset="UTF-8" ></script>
 </body>
 </html>
