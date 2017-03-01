@@ -2,7 +2,6 @@ package org.j.products.search.products;
 
 import org.springframework.data.domain.Pageable;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

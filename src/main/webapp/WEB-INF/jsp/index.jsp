@@ -2,21 +2,24 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<t:layout title="Products">
+<spring:message var="title" code="products.title" />
+
+<t:layout title="${title}">
 
     <jsp:attribute name="header" >
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a href="<c:out value="${urlPath}"/>" class="navbar-brand">Watches</a>
+                    <a href="<c:out value="${urlPath}"/>" class="navbar-brand text-capitalize"> <spring:message code="products.watches"/> </a>
                 </div>
 
                 <div class="collapse navbar-collapse">
                     <form action="<c:out value="${urlPath}"/>" class="navbar-form navbar-left" autocomplete="off">
                         <div class="form-group">
                             <input type="text" class="form-control" name="search"
-                                    value="<c:out value="${search}" />" placeholder="Search..." />
+                                    value="<c:out value="${search}" />" placeholder="<spring:message code="products.search" />..." />
                         </div>
                         <button class="btn btn-default" type="submit"> <i class="fa fa-search"></i> </button>
                     </form>

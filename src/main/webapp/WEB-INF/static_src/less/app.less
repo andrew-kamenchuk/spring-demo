@@ -1,5 +1,5 @@
 #main-content {
-    margin-top: 50px;
+    margin-top: 70px;
 }
 
 #sortings {
@@ -7,14 +7,15 @@
 }
 
 .panel-heading {
+
     a:after {
         font-family:'Glyphicons Halflings';
         content:"\e257";
         float: left;
         color: #000;
+    }
 
-        &[aria-expanded=true] {
-            content:"\e259";
-        }
+    a[aria-expanded=true]:after {
+        content: "\e259";
     }
 }

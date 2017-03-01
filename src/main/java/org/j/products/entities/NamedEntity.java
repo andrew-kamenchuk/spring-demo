@@ -36,4 +36,20 @@ public class NamedEntity {
     public String toString() {
         return String.format("%s{id=%d, name=%s}", getClass(), getId(), getName());
     }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(id);
+    }
+
+    @Override
+    public boolean equals(final Object that) {
+        if (that == null || getClass() != that.getClass()) {
+            return false;
+        }
+
+        NamedEntity obj = (NamedEntity) that;
+
+        return this == that || id.equals(obj.getId());
+    }
 }

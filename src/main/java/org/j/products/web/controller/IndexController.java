@@ -106,10 +106,4 @@ public class IndexController {
 
         return null == s || s.isEmpty() ? orders[0] : null;
     }
-
-    @RequestMapping(path = "welcome", method = RequestMethod.GET)
-    public String sayHello(ModelMap model) {
-        model.addAttribute("greeting", "Hello, world");
-        return "welcome";
-    }
 }

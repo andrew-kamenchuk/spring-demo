@@ -17,9 +17,9 @@ public class PropertyFacetResult {
 
     public PropertyFacetResult(final Property property, final Boolean selected,
                                final Set<PropertyValueFacetResult> propertyValueFacetResults) {
-        this.property = property;
-        this.selected = selected;
-        this.propertyValueFacetResults = propertyValueFacetResults;
+        setProperty(property);
+        setSelected(selected);
+        setPropertyValueFacetResults(propertyValueFacetResults);
     }
 
     public PropertyFacetResult(final Property property, final Boolean selected) {
@@ -44,5 +44,17 @@ public class PropertyFacetResult {
 
     public void addPropertyValueFacetResult(final PropertyValueFacetResult propertyValueFacetResult) {
         propertyValueFacetResults.add(propertyValueFacetResult);
+    }
+
+    public void setProperty(final Property property) {
+        this.property = property;
+    }
+
+    public void setPropertyValueFacetResults(final Set<PropertyValueFacetResult> propertyValueFacetResults) {
+        this.propertyValueFacetResults = propertyValueFacetResults;
+    }
+
+    public void setSelected(final Boolean selected) {
+        this.selected = selected;
     }
 }

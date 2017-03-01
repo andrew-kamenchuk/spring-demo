@@ -1,6 +1,7 @@
 <%@ tag description="Sorting" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%@ attribute name="sortingsUrl" required="true" %>
 <%@ attribute name="orderString" required="true" %>
@@ -8,7 +9,7 @@
 <%@ attribute name="sortParam" required="true" %>
 
 <div>
-    <span>Sort By: </span>
+    <span class="text-capitalize"><spring:message code="products.sort_by" />: </span>
 
     <div class="btn-group">
     <c:forEach items="${orders}" var="order">

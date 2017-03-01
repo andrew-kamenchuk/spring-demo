@@ -128,7 +128,7 @@ public class SearchServiceImpl implements SearchService {
         Set<PropertyFacetResult> facets = new LinkedHashSet<>();
 
         properties.forEach(property -> {
-            final boolean propertySelected = filterValues.containsKey(property.getId());
+            final Boolean propertySelected = filterValues.containsKey(property.getId());
 
             final PropertyFacetResult propertyFacetResult = new PropertyFacetResult(property, propertySelected);
 
@@ -153,9 +153,11 @@ public class SearchServiceImpl implements SearchService {
                     return;
                 }
 
-                final boolean selected = propertySelected && filterValues.get(property.getId()).contains(valueId);
+                final Long count = entry.getValueCount();
 
-                propertyFacetResult.addPropertyValueFacetResult(new PropertyValueFacetResult(value, entry.getValueCount(), selected));
+                final Boolean selected = propertySelected && filterValues.get(property.getId()).contains(valueId) && count > 0;
+
+                propertyFacetResult.addPropertyValueFacetResult(new PropertyValueFacetResult(value, count, selected));
             });
         });
 
