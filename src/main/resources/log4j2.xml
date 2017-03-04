@@ -17,5 +17,7 @@
 
         <Logger name="org.hibernate" level="info"/>
         <Logger name="org.springframework" level="info" />
+        <Logger name="net.sf.ehcache" level="info" />
+        <Logger name="org.apache.solr" level="info" />
     </Loggers>
 </Configuration>

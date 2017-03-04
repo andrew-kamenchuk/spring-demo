@@ -1,6 +1,8 @@
 package org.j.products.configuration;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.hibernate.cache.ehcache.EhCacheRegionFactory;
+import org.hibernate.cache.internal.NoCachingRegionFactory;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -59,6 +61,10 @@ public class DataConfig {
         hbmProperties.setProperty("hibernate.dialect", env.getRequiredProperty("hbm.dialect"));
         hbmProperties.setProperty("hibernate.hbm2ddl.auto", env.getRequiredProperty("hbm.hbm2ddl.auto"));
 
+        hbmProperties.setProperty("hibernate.cache.use_second_level_cache", Boolean.toString(true));
+        hbmProperties.setProperty("hibernate.cache.use_query_cache", Boolean.toString(true));
+        hbmProperties.setProperty("hibernate.cache.region.factory_class", EhCacheRegionFactory.class.getName());
+
         entityManagerFactoryBean.setJpaProperties(hbmProperties);
 
         return entityManagerFactoryBean;
@@ -90,6 +96,9 @@ public class DataConfig {
         hbmProperties.setProperty("hibernate.dialect", env.getRequiredProperty("hbm.test.dialect"));
         hbmProperties.setProperty("hibernate.hbm2ddl.auto", env.getRequiredProperty("hbm.test.hbm2ddl.auto"));
         hbmProperties.setProperty("hibernate.hbm2ddl.import_files", env.getRequiredProperty("hbm.test.import_files"));
+
+        hbmProperties.setProperty("hibernate.cache.use_second_level_cache", Boolean.toString(false));
+        hbmProperties.setProperty("hibernate.cache.use_query_cache", Boolean.toString(false));
 
         entityManagerFactoryBean.setJpaProperties(hbmProperties);
 
