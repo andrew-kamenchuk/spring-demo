@@ -12,3 +12,5 @@ node_modules/
 /src/main/webapp/WEB-INF/static
 
 /data/solr.test/collection1/data
+
+/.vagrant

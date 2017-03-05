@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+    <dataSource driver="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost:3306/local_products"
+        user="local" password="local" />
+
+    <document name="products">
+        <entity name="product" query="SELECT id, name, price FROM products">
+            <entity name="features"
+                query="SELECT iv.value_id, v.property_id, v.name FROM items_values iv LEFT JOIN properties_values as v
+                 ON v.id = iv.value_id WHERE item_id = '${product.id}'">
+                <field name="prop_${features.property_id}" column="value_id" />
+                <entity name="description" query="SELECT CONCAT(name, ' ${features.name}') as description FROM
+                    properties WHERE id = '${features.property_id}'">
+                </entity>
+            </entity>
+        </entity>
+    </document>
+
+</dataConfig>
