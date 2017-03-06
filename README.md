@@ -10,10 +10,14 @@ in order to try it. The web page will be available at http://localhost:8080
 * [Hibernate ORM](http://hibernate.org/)
 * [MySQL](https://www.mysql.com/)
 * [Maven](https://maven.apache.org/)
+* [Gulp](http://gulpjs.com/), [Less](http://lesscss.org/)
 * ... and others
+
+![demo](https://raw.githubusercontent.com/andrew-kamenchuk/spring-demo/master/data/screen.png "Demo Page")
 
 ## Todo:
 * Add admin panel
 * Add tests
+* More caching
 * Add more filters (price range slider, etc)
 * del repo
