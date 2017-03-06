@@ -2,7 +2,6 @@ package org.j.products.configuration;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.cache.ehcache.EhCacheRegionFactory;
-import org.hibernate.cache.internal.NoCachingRegionFactory;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;

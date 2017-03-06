@@ -1,7 +1,5 @@
 package org.j.products.web.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.j.products.entities.PropertyValue;
 import org.j.products.repositories.PropertyValueRepository;
 import org.j.products.search.products.QueryOptions;
@@ -9,6 +7,8 @@ import org.j.products.search.products.Result;
 import org.j.products.search.products.SearchService;
 import org.j.products.search.products.SortOrder;
 import org.j.products.web.exceptions.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -26,7 +26,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class IndexController {
-    private static final Logger logger = LogManager.getLogger(IndexController.class);
+    private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     private static final Integer PAGE_SIZE = 10;
 
@@ -44,11 +44,9 @@ public class IndexController {
             @RequestParam(value = "f", required = false) final List<Long> filters,
             final ModelMap model) {
 
-        logger.debug(orderString);
-
         final SortOrder order = parseSortOrder(orderString);
 
-        logger.debug(order);
+        logger.debug("order: {}, {}", orderString, order);
 
         if (null == order) {
             throw new NotFoundException();

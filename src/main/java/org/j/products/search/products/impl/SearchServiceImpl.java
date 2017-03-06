@@ -1,7 +1,5 @@
 package org.j.products.search.products.impl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.j.products.entities.Product;
 import org.j.products.entities.Property;
 import org.j.products.entities.PropertyValue;
@@ -14,6 +12,8 @@ import org.j.products.search.products.Result;
 import org.j.products.search.products.SearchService;
 import org.j.products.search.products.SortOrder;
 import org.j.products.solr.document.ProductSolrDocument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -63,7 +63,7 @@ public class SearchServiceImpl implements SearchService {
 
     private static final Float FUZZY_DISTANCE = 0.2f;
 
-    private static final Logger logger = LogManager.getLogger(SearchServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(SearchServiceImpl.class);
 
     @Autowired
     private SolrTemplate productsTemplate;
@@ -140,7 +140,7 @@ public class SearchServiceImpl implements SearchService {
                 try {
                     valueId = Long.parseLong(entry.getValue());
                 } catch (NumberFormatException e) {
-                    logger.error(e);
+                    logger.error("parse filter error", e);
                 }
 
                 if (null == valueId) {
@@ -191,7 +191,7 @@ public class SearchServiceImpl implements SearchService {
 
                 words.forEach(word -> criteria.or(new Criteria(FIELD_NAME).fuzzy(word, FUZZY_DISTANCE).boost(FUZZY_BOOST)));
 
-                logger.debug(criteria);
+                logger.debug(criteria.toString());
 
                 return criteria;
             }
