@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 export DEBIAN_FRONTEND=noninteractive
 
 dpkg --add-architecture i386
@@ -20,24 +21,25 @@ mysql -uroot -proot local_products < /vagrant/data/products.sql
 echo "Installing jre..."
 
 wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" \
-  "http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jre-8u112-linux-x64.tar.gz"
+  "http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz"
 
 
 mkdir -p /usr/lib/jvm
 
 
-tar -C /usr/lib/jvm/ -xzf jre-8u112-linux-x64.tar.gz
+tar -C /usr/lib/jvm/ -xzf jdk-8u112-linux-x64.tar.gz
 
 
-rm jre-8u112-linux-x64.tar.gz
+rm jdk-8u112-linux-x64.tar.gz
 
 
-update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jre1.8.0_112/bin/java" 100
+update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0_112/bin/java" 100
 
 
 echo "Done!"
 
-echo 'export JAVA_HOME="/usr/lib/jvm/jre1.8.0_112"' | tee -a "/home/vagrant/.profile"
+echo 'export JAVA_HOME="/usr/lib/jvm/jdk1.8.0_112"' | tee -a "/home/vagrant/.profile"
+export JAVA_HOME="/usr/lib/jvm/jdk1.8.0_112"
 
 echo "Installing solr..."
 wget http://www-us.apache.org/dist/lucene/solr/6.4.1/solr-6.4.1.tgz
@@ -59,3 +61,12 @@ rm -rf mysql-connector-java*
 sudo -i -H -u solr bash -c "/opt/solr/bin/solr create -c 'products' -d '/vagrant/data/solr/conf'"
 
 curl "http://localhost:8983/solr/products/dataimport?command=full-import"
+
+wget http://apache.volia.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+mkdir maven
+tar -xvzf apache-maven-3.3.9-bin.tar.gz -C maven --strip-components=1
+./maven/bin/mvn -f /vagrant/pom.xml install
+
+wget http://www-eu.apache.org/dist/tomcat/tomcat-7/v7.0.75/bin/apache-tomcat-7.0.75.tar.gz
+mkdir tomcat
+tar -xvzf apache-tomcat-7.0.75.tar.gz -C tomcat --strip-components=1
