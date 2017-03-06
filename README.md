@@ -16,8 +16,11 @@ in order to try it. The web page will be available at http://localhost:8080
 ![demo](https://raw.githubusercontent.com/andrew-kamenchuk/spring-demo/master/data/screen.png "Demo Page")
 
 ## Todo:
-* Add admin panel
-* Add tests
-* More caching
-* Add more filters (price range slider, etc)
+* add live demo
+* setup more intelligent search
+* highlight search results
+* add admin panel
+* add tests
+* more caching
+* add more filters (price range slider, etc)
 * del repo
