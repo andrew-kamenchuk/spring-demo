@@ -2,9 +2,11 @@
 export DEBIAN_FRONTEND=noninteractive
 
 dpkg --add-architecture i386
-apt-get update && apt-get -y upgrade
 apt-get --no-install-recommends install virtualbox-guest-utils
-apt-get install libc6-i386
+apt-get install -y libc6-i386 python-software-properties
+curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+apt-get update && apt-get -y upgrade
+apt-get install nodejs
 
 debconf-set-selections <<< "mysql-server mysql-server/root_password password root"
 debconf-set-selections <<< "mysql-server mysql-server/root_password_again password root"
@@ -42,10 +44,10 @@ echo 'export JAVA_HOME="/usr/lib/jvm/jdk1.8.0_112"' | tee -a "/home/vagrant/.pro
 export JAVA_HOME="/usr/lib/jvm/jdk1.8.0_112"
 
 echo "Installing solr..."
-wget http://www-us.apache.org/dist/lucene/solr/6.4.1/solr-6.4.1.tgz
-tar -xzf solr-6.4.1.tgz solr-6.4.1/bin/install_solr_service.sh --strip-components=2
-./install_solr_service.sh solr-6.4.1.tgz
-rm solr-6.4.1.tgz
+wget http://www-us.apache.org/dist/lucene/solr/6.5.1/solr-6.5.1.tgz
+tar -xzf solr-6.5.1.tgz solr-6.5.1/bin/install_solr_service.sh --strip-components=2
+./install_solr_service.sh solr-6.5.1.tgz
+rm solr-6.5.1.tgz
 service solr status
 
 usermod -aG solr vagrant
@@ -62,6 +64,8 @@ sudo -i -H -u solr bash -c "/opt/solr/bin/solr create -c 'products' -d '/vagrant
 
 curl "http://localhost:8983/solr/products/dataimport?command=full-import"
 
+(cd /vagrant/src/main/webapp/WEB-INF/static_src && npm install && npm run build)
+
 wget http://apache.volia.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
 mkdir maven
 tar -xvzf apache-maven-3.3.9-bin.tar.gz -C maven --strip-components=1
@@ -69,4 +73,4 @@ tar -xvzf apache-maven-3.3.9-bin.tar.gz -C maven --strip-components=1
 
 wget http://www-eu.apache.org/dist/tomcat/tomcat-7/v7.0.77/bin/apache-tomcat-7.0.77.tar.gz
 mkdir tomcat
-tar -xvzf apache-tomcat-7.0.75.tar.gz -C tomcat --strip-components=1
+tar -xvzf apache-tomcat-7.0.77.tar.gz -C tomcat --strip-components=1
