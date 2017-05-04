@@ -2,7 +2,7 @@
 /target
 
 # idea
-Products.iml
+/*.iml
 /.idea
 
 # js

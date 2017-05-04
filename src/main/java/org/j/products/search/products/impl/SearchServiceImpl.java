@@ -74,7 +74,7 @@ public class SearchServiceImpl implements SearchService {
     @Autowired
     private PropertyRepository propertyRepository;
 
-    final SortOrder[] awailableSortOrders = new SortOrder[] {
+    private SortOrder[] awailableSortOrders = new SortOrder[] {
         new SortOrder("default", DESC, "score"),
         new SortOrder(FIELD_NAME + " " + ASC.toString(), ASC, FIELD_NAME),
         new SortOrder(FIELD_PRICE + " " + ASC.toString(), ASC, FIELD_PRICE),
