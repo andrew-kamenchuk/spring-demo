@@ -67,6 +67,6 @@ mkdir maven
 tar -xvzf apache-maven-3.3.9-bin.tar.gz -C maven --strip-components=1
 ./maven/bin/mvn -f /vagrant/pom.xml install
 
-wget http://www-eu.apache.org/dist/tomcat/tomcat-7/v7.0.75/bin/apache-tomcat-7.0.75.tar.gz
+wget http://www-eu.apache.org/dist/tomcat/tomcat-7/v7.0.77/bin/apache-tomcat-7.0.77.tar.gz
 mkdir tomcat
 tar -xvzf apache-tomcat-7.0.75.tar.gz -C tomcat --strip-components=1
